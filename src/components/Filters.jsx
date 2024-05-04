@@ -8,11 +8,11 @@ const Filters = ({ filterTags, handleFilterChange }) => {
   };
   return (
     <div className="m-4 lg:border-r-2">
-      <div>FILTERS</div>
+      <div className="text-2xl">FILTERS</div>
       <div className="flex  lg:flex-col flex-wrap ">
         {Object.entries(filters).map(([key, options]) => (
-          <div key={key}>
-            <div>{key} </div>
+          <div className="" key={key}>
+            <div className="ml-4">{key}</div>
             <select
               value={filterTags[key]}
               onChange={e => handleFilterChange(key, e.target.value)}

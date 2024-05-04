@@ -7,7 +7,7 @@ const Filters = ({ filterTags, handleFilterChange }) => {
     price: ['All', '250+', '500+'],
   };
   return (
-    <div className="m-4 lg:border-r-2">
+    <div className="m-4 pr-4 lg:border-r-2">
       <div className="text-2xl">FILTERS</div>
       <div className="flex  lg:flex-col flex-wrap ">
         {Object.entries(filters).map(([key, options]) => (

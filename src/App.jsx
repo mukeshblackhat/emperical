@@ -16,19 +16,23 @@ const  App=()=> {
   const [colorFilter, setColorFilter] = useState(query.get('color') || '');
   const [priceFilter, setPriceFilter] = useState(query.get('price') || '');
   const [loading,setLoading]=useState(true);
-  const [error , setError]=useState(false)
+  const [error , setError]=useState(false);
+
   useEffect(() => { 
     axios.get('https://api.restful-api.dev/objects').then((res)=>{
       setProducts(res.data);
       setLoading(false);
-    }).catch(setError(true)) },[]);
+    }).catch(()=>setError(true))},[]);
+
   useEffect(() => {
     let filteredProducts = products;
     if (companyFilter !== 'select' && companyFilter) {
-      filteredProducts = filteredProducts?.filter(product => product.name.toLowerCase().includes(companyFilter));
+      filteredProducts = filteredProducts?.filter(product => 
+         product.name.toLowerCase().includes(companyFilter));
     }
     if (colorFilter !== 'select' && colorFilter) {
-      filteredProducts = filteredProducts?.filter(product => product.data && product?.data?.color?.toLowerCase() === colorFilter);
+      filteredProducts = filteredProducts?.filter(product => product.data && 
+        product?.data?.color?.toLowerCase() === colorFilter);
     }
     if (priceFilter !== 'select' && priceFilter) {
       const priceRange = priceFilter.split('+');
@@ -71,7 +75,8 @@ const  App=()=> {
   <div>Filters</div>
   <div className="flex flex-col">
     <div>
-      <select onChange={(e)=>handleCompanyChange("company",e.target.value)} name="languages" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
+      <select value={companyFilter} onChange={(e)=>handleCompanyChange("company",e.target.value)} 
+       name="languages" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
         <option value="select">Company</option>
         <option value="apple">Apple</option>
         <option value="samsung">Samsung</option>
@@ -80,7 +85,8 @@ const  App=()=> {
       </select>
     </div>
     <div>
-      <select onChange={(e)=>handleColorChange("color",e.target.value)} name="color" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
+      <select value={colorFilter} onChange={(e)=>handleColorChange("color",e.target.value)} 
+       name="color" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
         <option value="select">Color</option>
         <option value="red">Red</option>
         <option value="purple">Purple</option>
@@ -90,7 +96,8 @@ const  App=()=> {
       </select>
     </div>
     <div>
-      <select onChange={(e)=>handlePriceChange("price",e.target.value)} name="languages" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
+      <select value={priceFilter} onChange={(e)=>handlePriceChange("price",e.target.value)} 
+       name="languages" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
         <option value="select">Price Rage</option>
         <option value="250+">250+</option>
         <option value="500+">500+</option>
@@ -99,32 +106,6 @@ const  App=()=> {
   </div>
  </div>
  <DataTable filterData={filterData} />
- {/* <div className="overflow-x-auto w-3/4 m-4">
- <div className="overflow-y-scroll h-[80vh] ">
-      <table className="min-w-full table-auto border-2">
-        <thead className="bg-gray-200 sticky top-0">
-          <tr>
-            <th className="px-4 py-2">ID</th>
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Details</th>
-          </tr>
-        </thead>
-        <tbody className="">
-          {filterData?.length!==0 ?filterData.map((product,index )=> (
-            <tr key={product.id} className="border-b">
-              <td className="px-4 py-2">{index+1}</td>
-              <td className="px-4 py-2">{product.name}</td>
-              <td className="px-4 py-2">
-                {product.data ? Object.entries(product.data).map(([key, value]) => (
-                  <div key={key}>{`${key}: ${value}`}</div>
-                )) : "No additional data"}
-              </td>
-            </tr>
-          )):<tr className=" text-center"><td></td><td>No Device with this spec </td><td></td></tr>}
-        </tbody>
-      </table>
-    </div>
-    </div> */}
  </div>
  }
  </div>)

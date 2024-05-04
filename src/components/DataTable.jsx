@@ -1,4 +1,4 @@
-const DataTable=(filterData)=>{
+const DataTable=({filterData})=>{
    return (
       <div className="overflow-x-auto w-3/4 m-4">
  <div className="overflow-y-scroll h-[80vh] ">
@@ -11,7 +11,7 @@ const DataTable=(filterData)=>{
           </tr>
         </thead>
         <tbody className="">
-          {filterData?.length!==0 ?filterData.map((product,index )=> (
+          {filterData?.length!==0 ? filterData?.map((product,index )=> (
             <tr key={product.id} className="border-b">
               <td className="px-4 py-2">{index+1}</td>
               <td className="px-4 py-2">{product.name}</td>

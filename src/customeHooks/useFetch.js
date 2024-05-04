@@ -11,7 +11,6 @@ const useFetch = url => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
   useEffect(() => {
     setLoading(true);
     setError(false);
@@ -26,12 +25,7 @@ const useFetch = url => {
         setError(true);
         setLoading(false);
       });
-
-    // Optional: Clean-up function if needed
-    return () => {
-      // Cancel the axios request here if component unmounts
-    };
-  }, [url]); // Dependency array contains url to refetch if url changes
+  }, [url]); 
 
   return { data, loading, error };
 };

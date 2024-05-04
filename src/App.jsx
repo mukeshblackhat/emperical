@@ -55,15 +55,18 @@ const App = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex bg-gray-200 p-5 ">Mobile Bar</div>
+    <div className="flex flex-col min-h-screen font-[`Mona Sans,Helvetica Neue,Helvetica ,Arial,sans-serif`]">
+       <div className="m-4 border-b-2">
+      <div className="text-3xl mb-2 font-bold">Mobile World</div>
+      <div className="mb-2 font-medium text-1 text-[#9f9f9f]">Currently we have <span className="font-bold text-[#232323]">{filterData.length}</span> items you can choose from .</div>
+      </div>
       {error && (
         <div className="text-xl m-4 text-red-500 flex-1 center">
           Oops  api call can't be made , api limit reached
         </div>
       )}
       {!loading && !error && (
-        <div className="flex flex-1  flex-col lg:flex-row ">
+        <div className="flex flex-1  flex-col ">
           <Filters
             filterTags={filterTags}
             handleFilterChange={handleFilterChange}

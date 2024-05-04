@@ -5,7 +5,7 @@ const ProductRow = ({ product, index }) => {
   return (
     <tr className="border-b">
       <td className="px-4 py-2">{index + 1}</td>
-      <td className="px-4 py-2">{product.name}</td>
+      <td className="px-4 py-2 font-bold">{product.name}</td>
       <td className="px-4 py-2">
         {product.data
           ? Object.entries(product.data).map(([key, value]) => (
@@ -25,11 +25,11 @@ ProductRow.propTypes = {
 const DataTable = ({ filterData }) => {
   console.log("Rendering DataTable")
   return (
-    <div className="overflow-x-auto flex-1 lg:w-3/4 m-4 ">
-      <div className="overflow-y-scroll">
+    <div className="overflow-x-auto flex-1  m-4 ">
+      <div className="overflow-y-scroll rounded-lg">
         <table className="min-w-full table-auto border-2">
-          <thead className="bg-gray-200 sticky top-0">
-            <tr className="text-left">
+          <thead className="bg-[#DAE0FC] sticky top-0">
+            <tr className="text-left text-[#405BE7] bg-[#DAE0FC]">
               <th className="px-4  py-2">ID</th>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Details</th>
@@ -40,7 +40,7 @@ const DataTable = ({ filterData }) => {
               <ProductRow product={product} index={index} key={product.id} />
             ))}
             {filterData.length === 0 && (
-              <tr className="text-center">
+              <tr className="text-center bg-[#FEFE]">
                 <td></td>
                 <td>No Device with this spec </td>
                 <td></td>

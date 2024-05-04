@@ -7,19 +7,18 @@ const Filters = ({ filterTags, handleFilterChange }) => {
     price: ['All', '250+', '500+'],
   };
   return (
-    <div className="m-4 pr-4 lg:border-r-2">
-      <div className="text-2xl">FILTERS</div>
-      <div className="flex  lg:flex-col flex-wrap ">
+    <div className="mr-2">
+      <div className="flex   flex-wrap justify-start  md:justify-end ">
         {Object.entries(filters).map(([key, options]) => (
-          <div className="" key={key}>
-            <div className="ml-4">{key}</div>
+          <div className="relative " key={key}>
+            <div className=" ml-4 absolute top-[-5px] bg-white ">{key}</div>
             <select
               value={filterTags[key]}
               onChange={e => handleFilterChange(key, e.target.value)}
               className="m-2 p-2 min-w-[120px] rounded-xl border-[1px] border-gray-200"
             >
               {options.map(option => (
-                <option className="m-1 bg-white" key={option} value={option?.toLowerCase()}>
+                <option className="m-1 " key={option} value={option?.toLowerCase()}>
                   {option}
                 </option>
               ))}
@@ -38,6 +37,7 @@ Filters.propTypes = {
     price: PropTypes.string,
   }).isRequired,
   handleFilterChange: PropTypes.func.isRequired,
+  productCount: PropTypes.number,
 };
 
 export default Filters;

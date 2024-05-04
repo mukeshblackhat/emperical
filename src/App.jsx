@@ -59,7 +59,7 @@ const App = () => {
       <div className="flex bg-gray-200 p-5 ">Mobile Bar</div>
       {error && (
         <div className="text-xl m-4 text-red-500 flex-1 center">
-          Oops something went wrong on api call
+          Oops  api call can&apost be made , api limit reached
         </div>
       )}
       {!loading && !error && (

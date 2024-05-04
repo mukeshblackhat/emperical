@@ -6,11 +6,10 @@ const Filters = ({ filterTags, handleFilterChange }) => {
     color: ['All', 'Red', 'Purple', 'White', 'Brown'],
     price: ['All', '250+', '500+'],
   };
-  console.log("Rendering Filter")
   return (
-    <div className="m-4 border-r-2">
+    <div className="m-4 lg:border-r-2">
       <div>FILTERS</div>
-      <div className="flex flex-col">
+      <div className="flex  lg:flex-col flex-wrap ">
         {Object.entries(filters).map(([key, options]) => (
           <div key={key}>
             <div>{key} </div>
@@ -20,7 +19,7 @@ const Filters = ({ filterTags, handleFilterChange }) => {
               className="m-2 p-2 min-w-[120px] rounded-xl border-[1px] border-gray-200"
             >
               {options.map(option => (
-                <option key={option} value={option?.toLowerCase()}>
+                <option className="m-1 bg-white" key={option} value={option?.toLowerCase()}>
                   {option}
                 </option>
               ))}

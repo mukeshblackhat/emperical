@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 
 const ProductRow = ({ product, index }) => {
-  console.log("Rendering Product Row")
 
   return (
     <tr className="border-b">
@@ -26,12 +25,12 @@ ProductRow.propTypes = {
 const DataTable = ({ filterData }) => {
   console.log("Rendering DataTable")
   return (
-    <div className="overflow-x-auto w-3/4 m-4 flex-1">
+    <div className="overflow-x-auto flex-1 lg:w-3/4 m-4 ">
       <div className="overflow-y-scroll">
         <table className="min-w-full table-auto border-2">
           <thead className="bg-gray-200 sticky top-0">
-            <tr>
-              <th className="px-4 py-2">ID</th>
+            <tr className="text-left">
+              <th className="px-4  py-2">ID</th>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Details</th>
             </tr>

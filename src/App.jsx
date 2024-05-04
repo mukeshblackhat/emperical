@@ -6,7 +6,6 @@ import useFetch from './customeHooks/useFetch';
 import { API_ROUTES } from './api/client';
 
 const App = () => {
-  console.log("rendering APP")
   const {
     data: products,
     loading,
@@ -64,7 +63,7 @@ const App = () => {
         </div>
       )}
       {!loading && !error && (
-        <div className="flex flex-1">
+        <div className="flex flex-1  flex-col lg:flex-row ">
           <Filters
             filterTags={filterTags}
             handleFilterChange={handleFilterChange}

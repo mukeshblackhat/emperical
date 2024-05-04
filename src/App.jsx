@@ -1,115 +1,79 @@
-import { useState,useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import DataTable from './components/DataTable';
-import axios from 'axios';
+import Filters from './components/Filters';
+import useFetch from './customeHooks/useFetch';
+import { API_ROUTES } from './api/client';
 
-const useQueryFunction = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
-const  App=()=> {
-  const [products,setProducts]=useState([]);
-  const query = useQueryFunction();
+const App = () => {
+  console.log("rendering APP")
+  const {
+    data: products,
+    loading,
+    error,
+  } = useFetch(API_ROUTES.product.getAllProducts);
+  
   let [searchParams, setSearchParams] = useSearchParams();
-  const [filterData, setFilterData] = useState(products||[]);
-  const [companyFilter, setCompanyFilter] = useState( query.get('company') || '');
-  const [colorFilter, setColorFilter] = useState(query.get('color') || '');
-  const [priceFilter, setPriceFilter] = useState(query.get('price') || '');
-  const [loading,setLoading]=useState(true);
-  const [error , setError]=useState(false);
 
-  useEffect(() => { 
-    axios.get('https://api.restful-api.dev/objects').then((res)=>{
-      setProducts(res.data);
-      setLoading(false);
-    }).catch(()=>setError(true))},[]);
+  // Initialize filterTags from URL parameters or default to empty strings
+  const [filterTags, setFilterTags] = useState({
+    company: searchParams.get('company') || '',
+    color: searchParams.get('color') || '',
+    price: searchParams.get('price') || '',
+  });
+
+  const [filterData, setFilterData] = useState([]);
 
   useEffect(() => {
-    let filteredProducts = products;
-    if (companyFilter !== 'select' && companyFilter) {
-      filteredProducts = filteredProducts?.filter(product => 
-         product.name.toLowerCase().includes(companyFilter));
-    }
-    if (colorFilter !== 'select' && colorFilter) {
-      filteredProducts = filteredProducts?.filter(product => product.data && 
-        product?.data?.color?.toLowerCase() === colorFilter);
-    }
-    if (priceFilter !== 'select' && priceFilter) {
-      const priceRange = priceFilter.split('+');
-      filteredProducts = filteredProducts?.filter(product => product.data && product.data.price >= parseFloat(priceRange[0]));
-    }
+    if (!products) return; // Ensure products are defined
+    let filteredProducts = products.filter(product => {
+      const productName = product?.name?.toLowerCase() || '';
+      const productColor = product?.data?.color?.toLowerCase() || '';
+      const productPrice = product?.data?.price;
 
+      return (
+        (!filterTags.company ||
+          filterTags.company === 'all' ||
+          productName.includes(filterTags.company.toLowerCase())) &&
+        (!filterTags.color ||
+          filterTags.color === 'all' ||
+          productColor === filterTags.color.toLowerCase()) &&
+        (!filterTags.price ||
+          filterTags.price === 'all' ||
+          productPrice >= parseInt(filterTags.price, 10))
+      );
+    });
     setFilterData(filteredProducts);
-  }, [companyFilter, colorFilter, priceFilter,products]);  // Dependencies for useEffect
+  }, [filterTags, products]);
 
-  const handleCompanyChange = (filterName,value) => {
-    setCompanyFilter(value);
-    const newQueryParams = new URLSearchParams(query);
+  const handleFilterChange = (filterName, value) => {
+    const updatedFilters = { ...filterTags, [filterName]: value };
+    setFilterTags(updatedFilters);
+    // Update URL search parameters
+    const newQueryParams = new URLSearchParams(searchParams);
     newQueryParams.set(filterName, value);
-    setSearchParams(newQueryParams.toString())  
+    setSearchParams(newQueryParams.toString());
   };
 
-  const handleColorChange = (filterName,value) => {
-    setColorFilter(value);
-    const newQueryParams = new URLSearchParams(query);
-    newQueryParams.set(filterName, value);
-    setSearchParams(newQueryParams.toString())
-  };
-
-  const handlePriceChange = (filterName,value) => {
-    setPriceFilter(value);
-    const newQueryParams = new URLSearchParams(query);
-    newQueryParams.set(filterName, value);
-    setSearchParams(newQueryParams.toString())
-  };
-
- return ( <div className="">
-  <div className="flex bg-gray-200 p-5 ">Mobile Bar</div>
- <div className="searchBar mt-4 ml-4 ">
-  <input type="text" className="border-2 border-gray-300 p-2 rounded-xl w-1/4" placeholder="Search"/>
- </div>
- {error && <div className="text-xl m-4 text-red-500">OOps something gone wrong on api call </div>}
- {!loading&&
- <div className="flex">
- <div className="m-4 border-r-2">
-  <div>Filters</div>
-  <div className="flex flex-col">
-    <div>
-      <select value={companyFilter} onChange={(e)=>handleCompanyChange("company",e.target.value)} 
-       name="languages" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
-        <option value="select">Company</option>
-        <option value="apple">Apple</option>
-        <option value="samsung">Samsung</option>
-        <option value="google">Google</option>
-
-      </select>
+  return (
+    <div className="flex flex-col min-h-screen">
+      <div className="flex bg-gray-200 p-5 ">Mobile Bar</div>
+      {error && (
+        <div className="text-xl m-4 text-red-500 flex-1 center">
+          Oops something went wrong on api call
+        </div>
+      )}
+      {!loading && !error && (
+        <div className="flex flex-1">
+          <Filters
+            filterTags={filterTags}
+            handleFilterChange={handleFilterChange}
+          />
+          <DataTable filterData={filterData} />
+        </div>
+      )}
     </div>
-    <div>
-      <select value={colorFilter} onChange={(e)=>handleColorChange("color",e.target.value)} 
-       name="color" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
-        <option value="select">Color</option>
-        <option value="red">Red</option>
-        <option value="purple">Purple</option>
-        <option value="white">White</option>
-        <option value="brown">Brown</option>
+  );
+};
 
-      </select>
-    </div>
-    <div>
-      <select value={priceFilter} onChange={(e)=>handlePriceChange("price",e.target.value)} 
-       name="languages" className="m-2 p-2 rounded-xl border-[1px] border-gray-200" id="lang">
-        <option value="select">Price Rage</option>
-        <option value="250+">250+</option>
-        <option value="500+">500+</option>
-      </select>
-    </div>
-  </div>
- </div>
- <DataTable filterData={filterData} />
- </div>
- }
- </div>)
- 
-}
-
-export default App
+export default App;

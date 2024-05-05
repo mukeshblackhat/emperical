@@ -3,14 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 import DataTable from './components/DataTable';
 import Filters from './components/Filters';
 import useFetch from './customeHooks/useFetch';
-import { API_ROUTES } from './api/client';
 
 const App = () => {
   const {
     data: products,
     loading,
     error,
-  } = useFetch(API_ROUTES.product.getAllProducts);
+  } = useFetch('https://api.restful-api.dev/objects');
   
   let [searchParams, setSearchParams] = useSearchParams();
 

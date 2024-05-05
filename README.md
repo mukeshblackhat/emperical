@@ -1,8 +1,11 @@
-# React + Vite
+Key Features:
+- Clean minimalist tabular view of products
+- Filters are available for more customised search
+- Sharing the url will result in same filtered result across users adding statefulness
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Thought process 
+- Adding a filter functionality was required so that user will be able to quickly find the required product 
+- Adding statefullness using url helped user to easily share the result with others just by sharing the url
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Future scope
+- Adding search functionality with something like fuzzy search so that user can find the required result even if they don't know their exact name

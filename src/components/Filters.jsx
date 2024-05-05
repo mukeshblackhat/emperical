@@ -11,7 +11,7 @@ const Filters = ({ filterTags, handleFilterChange }) => {
       <div className="flex   flex-wrap justify-start  md:justify-end ">
         {Object.entries(filters).map(([key, options]) => (
           <div className="relative " key={key}>
-            <div className=" ml-4 absolute top-[-5px] bg-white ">{key}</div>
+            <div className=" ml-4 absolute top-[-5px] ">{key}</div>
             <select
               value={filterTags[key]}
               onChange={e => handleFilterChange(key, e.target.value)}
